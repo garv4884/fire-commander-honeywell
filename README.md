@@ -1,5 +1,9 @@
 # Fire Commander - Dynamic Evacuation Router 🚨
 
+🔗 **GitHub Repository:** [garv4884/fire-commander-honeywell](https://github.com/garv4884/fire-commander-honeywell)
+🌐 **Live Deployment:** [fire-commander-honeywell.vercel.app](https://fire-commander-honeywell.vercel.app/)
+📺 **Video Demo:** [Watch on Google Drive](https://drive.google.com/file/d/1uDhRF4J9pFC5MuIlkdcPNjX9YWORtdMp/view)
+
 Fire Commander is an intelligent, real-time fire evacuation routing system designed to dynamically guide building occupants to safety during an emergency. By fusing real-time sensor data (temperature, smoke, flame presence) with a Dijkstra-based pathfinding engine, the system recalculates the safest escape routes instantly when hazards block primary exits.
 
 This project was built for the Honeywell Hackathon/Project and consists of two main components:

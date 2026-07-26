@@ -8,44 +8,7 @@ Instead of relying on static distances, the system fuses real-time telemetry (Te
 ## 2. Sensor-Fusion Flowchart
 The following flowchart illustrates the exact decision tree used to convert raw sensor data into actionable edge-weights for the pathfinding engine.
 
-```mermaid
-graph TD
-    %% Input Layer
-    Sensors((Real-Time Sensors)) --> Temp[Temperature °C]
-    Sensors --> Smoke[Smoke PPM]
-    Sensors --> Flame[Optical Flame Sensor]
-
-    %% Evaluation Layer
-    Flame --> EvalFlame{Flame Detected?}
-    Temp --> EvalTempSmoke
-    Smoke --> EvalTempSmoke
-    
-    EvalFlame -- Yes --> Block[Hazard Level: BLOCKED]
-    EvalFlame -- No --> EvalTempSmoke{Evaluate Environment}
-
-    EvalTempSmoke -- "Temp > 60°C OR Smoke > 200ppm" --> Danger[Hazard Level: DANGER]
-    EvalTempSmoke -- "Temp > 45°C OR Smoke > 100ppm" --> Warning[Hazard Level: WARNING]
-    EvalTempSmoke -- "Temp > 35°C OR Smoke > 50ppm" --> Caution[Hazard Level: CAUTION]
-    EvalTempSmoke -- "Normal Conditions" --> Safe[Hazard Level: SAFE]
-
-    %% Weight Calculation Layer
-    Block --> W_Inf[Weight Penalty = Infinity]
-    Danger --> W_Dan[Weight Penalty = Base Weight x 5.0]
-    Warning --> W_Warn[Weight Penalty = Base Weight x 2.5]
-    Caution --> W_Cau[Weight Penalty = Base Weight x 1.5]
-    Safe --> W_Safe[Weight Penalty = Base Weight x 1.0]
-
-    %% Routing Layer
-    W_Inf --> GraphUpdate((Graph Context Update))
-    W_Dan --> GraphUpdate
-    W_Warn --> GraphUpdate
-    W_Cau --> GraphUpdate
-    W_Safe --> GraphUpdate
-
-    GraphUpdate --> Dijkstra[Dijkstra Pathfinding Recalculation]
-    Dijkstra --> UI[Push New Paths to Smart Signs]
-    Dijkstra --> HVAC[Trigger HVAC / Fire Door Overrides]
-```
+![Sensor Fusion Flowchart](./flowchart.png)
 
 ## 3. Mathematical Weighting Model
 The traversal cost ($C$) of any given edge ($E$) is calculated dynamically using the base distance ($D$) and a hazard penalty multiplier ($P_h$).
